@@ -1,0 +1,21 @@
+@use 'fonts';
+@use 'variables';
+@use 'null';
+@use 'animation';
+@use 'breakpoint';
+
+
+body {
+  background: var(--bg);
+  color: var(--black);
+
+  &.lock {
+    overflow: hidden;
+  }
+}
+
+.container {
+  width: 100%;
+  margin: 0 auto;
+  scroll-behavior: smooth;
+}
