@@ -3,14 +3,18 @@ import { Swiper, SwiperSlide } from 'swiper/vue';
 import 'swiper/css';
 import 'swiper/css/navigation';
 import { Navigation } from 'swiper/modules';
+import { getCurrentInstance, ref } from 'vue';
 
 const props = defineProps<{
     videos: string[]
 }>()
+
+const instance = getCurrentInstance();
+const uniqueId = ref(instance?.uid); 
 </script>
 
 <template>
-    <swiper :navigation="{ nextEl: '.custom-next', prevEl: '.custom-prev' }" :modules="[Navigation]" :loop="true" class="mySwiper">
+    <swiper :navigation="{ nextEl: '.custom-next-'+uniqueId, prevEl: '.custom-prev-'+uniqueId }" :modules="[Navigation]" :loop="true" class="mySwiper">
         <swiper-slide v-for="video in props.videos" style="background: url('/video-border.png') center center / cover no-repeat;">
             <video controls>
                 <source type="video/mp4">
@@ -20,8 +24,8 @@ const props = defineProps<{
         </swiper-slide>
     </swiper>
     <div class="custom-navigation">
-      <button class="custom-prev">ПРЕДЫДУЩЕЕ</button>
-      <button class="custom-next">СЛЕДУЮЩЕЕ</button>
+      <button :class="'custom-prev custom-prev-' + uniqueId">ПРЕДЫДУЩЕЕ</button>
+      <button :class="'custom-next custom-next-' + uniqueId">СЛЕДУЮЩЕЕ</button>
     </div>
 </template>
 

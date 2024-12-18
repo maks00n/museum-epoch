@@ -1,6 +1,9 @@
 <script setup lang="ts">
     import ArchiveSlider from './ArchiveSlider.vue';
     import VideoSlider from './VideoSlider.vue';
+
+    const archiveData = ['/temp-moment.png', '/temp-moment.png', '/temp-moment.png', '/temp-moment.png']
+    const videoData = ['1', '2', '3', '1']
 </script>
 
 <template>
@@ -15,8 +18,8 @@
             <span class="shadow shadow-1">МОМЕНТЫ ИСТОРИИ</span>
             <span class="shadow shadow-2">МОМЕНТЫ ИСТОРИИ</span>
         </div>
-        <ArchiveSlider :slides="['1', '2', '3', '1']"/>
-        <VideoSlider :videos="['1', '2', '3', '1']"/>
+        <ArchiveSlider :slides="archiveData"/>
+        <VideoSlider :videos="videoData"/>
     </div>
 </template>
 

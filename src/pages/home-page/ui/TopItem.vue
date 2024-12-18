@@ -1,17 +1,23 @@
-<script setup>
+<script setup lang="ts">
 import { onMounted } from 'vue';
 
 onMounted(() => {
-    document.querySelectorAll('a[href^="#"]').forEach(anchor => {
-    anchor.addEventListener('click', function (e) {
-        e.preventDefault();
+    document.querySelectorAll<HTMLAnchorElement>('a[href^="#"]').forEach(anchor => {
+        anchor.addEventListener('click', function (e: MouseEvent) {
+            e.preventDefault();
 
-        document.querySelector(this.getAttribute('href')).scrollIntoView({
-            behavior: 'smooth'
+            const href = this.getAttribute('href');
+            if (href) {
+                const targetElement = document.querySelector(href);
+                if (targetElement) {
+                    targetElement.scrollIntoView({
+                        behavior: 'smooth'
+                    });
+                }
+            }
         });
     });
 });
-})
 </script>
 
 <template>
