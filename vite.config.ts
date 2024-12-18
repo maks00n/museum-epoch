@@ -10,34 +10,34 @@ export default defineConfig({
 	plugins: [
 		vue(),
 		vueDevTools(),
-		imagemin({
-			// Default mode sharp. support squoosh and sharp
-			mode: 'sharp',
-			beforeBundle: false,
-			// Default configuration options for compressing different pictures
-			compress: {
-				jpg: {
-					quality: 80,
-				},
-				jpeg: {
-					quality: 80,
-				},
-				png: {
-					quality: 80,
-				},
-				webp: {
-					quality: 80,
-				},
-			},
-			conversion: [
-				{ from: 'jpeg', to: 'webp' },
-				{ from: 'JPEG', to: 'webp' },
-				{ from: 'png', to: 'webp' },
-				{ from: 'PNG', to: 'webp' },
-				{ from: 'JPG', to: 'webp' },
-				{ from: 'jpg', to: 'webp' },
-			],
-		}),
+		// imagemin({
+		// 	// Default mode sharp. support squoosh and sharp
+		// 	mode: 'sharp',
+		// 	beforeBundle: false,
+		// 	// Default configuration options for compressing different pictures
+		// 	compress: {
+		// 		jpg: {
+		// 			quality: 80,
+		// 		},
+		// 		jpeg: {
+		// 			quality: 80,
+		// 		},
+		// 		png: {
+		// 			quality: 80,
+		// 		},
+		// 		webp: {
+		// 			quality: 80,
+		// 		},
+		// 	},
+		// 	conversion: [
+		// 		{ from: 'jpeg', to: 'webp' },
+		// 		{ from: 'JPEG', to: 'webp' },
+		// 		{ from: 'png', to: 'webp' },
+		// 		{ from: 'PNG', to: 'webp' },
+		// 		{ from: 'JPG', to: 'webp' },
+		// 		{ from: 'jpg', to: 'webp' },
+		// 	],
+		// }),
 	],
 	resolve: {
 		alias: {
