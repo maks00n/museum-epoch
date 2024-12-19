@@ -1,1 +1,10 @@
-export { axiosInstance } from './axiosInstance'
+export 
+{ 
+    axiosInstance,
+    getHistoryPeriods, 
+    getArchivePhotos, 
+    getArchiveVideos,
+    getCitizens,
+    getHistoryItems
+} 
+from './axiosInstance'

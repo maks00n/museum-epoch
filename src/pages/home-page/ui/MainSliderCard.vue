@@ -12,10 +12,13 @@ const isModalVisible = ref(false);
 
 const showModal = () => {
     isModalVisible.value = true;
+    document.body.classList.add('lock');
+
 };
 
 const closeModal = () => {
     isModalVisible.value = false;
+    document.body.classList.remove('lock');
 };
 </script>
 
@@ -23,7 +26,7 @@ const closeModal = () => {
     <div>
         <div class="main-slider-card" @click="showModal">
             <img :src="props.photo" alt="photo" :style="isCompact ? { height: '279rem' } : {height: '486rem'}">
-            <h3>{{ props.name }}</h3>
+            <h3 :style="isCompact ? { textTransform: 'uppercase' } : {textTransform: 'capitalize'}">{{ props.name }}</h3>
             <p>{{ props.description }}</p>
         </div>
 
@@ -31,7 +34,7 @@ const closeModal = () => {
         <div v-if="isModalVisible" class="modal" @click="closeModal">
             <div class="modal-content" @click.stop>
                 <img :src="props.photo" alt="photo" class="modal-image" :style="isCompact ? { width: '80%' } : {width: '50%'}">
-                <h3>{{ props.name }}</h3>
+                <h3 :style="isCompact ? { textTransform: 'uppercase' } : {textTransform: 'capitalize'}">{{ props.name }}</h3>
                 <p>{{ props.description }}</p>
                 <button class="close-button" @click="closeModal">Закрыть</button>
             </div>
@@ -55,7 +58,6 @@ h3 {
     font-family: var(--font-durik);
     font-size: 32rem;
     line-height: 35.3rem;
-    text-transform: uppercase;
 }
 
 p {

@@ -10,8 +10,9 @@ import 'swiper/css/pagination'
 import MainSliderCard from './MainSliderCard.vue'
 
 interface Slide{
-    photo: string,
-    name: string,
+    id: number,
+    image: string,
+    title: string,
     description: string
 }
 
@@ -33,14 +34,14 @@ const uniqueId = ref(instance?.uid);
       :modules="[Navigation, Autoplay, Navigation]"
       :slides-per-view="4"
       :space-between="20"
-      :loop="true"
+      :loop="props.slides.length > 4 ? true : false"
       class="swiper"
     >
-      <swiper-slide v-for="slide in props.slides" :key="slide.name">
-        <MainSliderCard :photo="slide.photo" :name="slide.name" :description="slide.description" :isCompact="props.isCompact"/>
+      <swiper-slide v-for="slide in props.slides" :key="slide.id">
+        <MainSliderCard :photo="slide.image" :name="slide.title" :description="slide.description" :isCompact="props.isCompact"/>
       </swiper-slide>
     </Swiper>
-    <div class="custom-navigation">
+    <div class="custom-navigation" v-if="props.slides.length > 4">
       <button :class="'custom-prev custom-prev-' + uniqueId"><img src="@/app/assets/images/arrow.svg" alt="назад"></button>
       <button :class="'custom-next custom-next-' + uniqueId"><img src="@/app/assets/images/arrow.svg" alt="вперед"></button>
     </div>

@@ -8,16 +8,27 @@ import { ref } from 'vue';
 
 const modules = [EffectCoverflow, Pagination];
 
+interface Slide {
+  id: number;
+  title: string;
+  image: string;
+}
+
 const props = defineProps<{
-    slides: string[]
+    slides: Slide[]
 }>();
 
 const isModalOpen = ref(false);
-const currentImage = ref('');
+const currentItem = ref({
+    image: '',
+    title: '',
+    id: 0
+});
 
-const openModal = (image: string) => {
-    currentImage.value = image;
+const openModal = (id: number) => {
+    currentItem.value = props.slides.find((slide) => slide.id === id) as Slide;
     isModalOpen.value = true;
+    document.body.classList.add('lock');
 };
 
 const closeModal = (event: Event) => {
@@ -27,11 +38,14 @@ const closeModal = (event: Event) => {
     if (classes?.contains('modal')) {
         isModalOpen.value = false;
     }
+
+    document.body.classList.remove('lock');
 };
 </script>
 
 <template>
     <swiper
+      v-if="props.slides.length > 0"
       :effect="'coverflow'"
       :initial-slide="props.slides.length > 3 ? 1 : Math.floor(slides.length / 2)"
       :grabCursor="true"
@@ -50,21 +64,22 @@ const closeModal = (event: Event) => {
       :modules="modules"
       class="mySwiper"
     >
-    <swiper-slide v-for="slide in props.slides" :key="slide">
-        <img :src="slide" alt="moment" @click="openModal(slide)" />
+    <swiper-slide v-for="slide in props.slides" :key="slide.id">
+        <img :src="slide.image" alt="moment" @click="openModal(slide.id)" />
     </swiper-slide>
     </swiper>
 
     <div v-if="isModalOpen" class="modal" @click="closeModal($event)">
-        <img :src="currentImage" alt="Full screen image" class="modal-image" />
+        <img :src="currentItem.image" alt="Full screen image" class="modal-image" />
+        <span class="modal-title">{{ currentItem.title }}</span>
     </div>
 </template>
 
 <style scoped>
 .swiper {
   width: 100%;
-  padding-top: 50px;
-  padding-bottom: 50px;
+  padding-top: 119rem;
+  padding-bottom: 208rem;
 }
 
 .swiper-slide {
@@ -90,12 +105,22 @@ const closeModal = (event: Event) => {
   display: flex;
   justify-content: center;
   align-items: center;
-  z-index: 1000; /* Убедитесь, что модальное окно поверх всего */
+  z-index: 1000;
+  display: flex;
+  flex-direction: column;
 }
 
 .modal-image {
   width: 70vw;
   max-height: 90vh;
   max-width: 90vw;
+}
+
+.modal-title {
+  color: #fff;
+  font-size: 44rem;
+  text-align: center;
+  z-index: 1001;
+  margin-top: 24rem;
 }
 </style>

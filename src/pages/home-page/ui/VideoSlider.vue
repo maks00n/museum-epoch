@@ -5,22 +5,47 @@ import 'swiper/css/navigation';
 import { Navigation } from 'swiper/modules';
 import { getCurrentInstance, ref } from 'vue';
 
+interface Slide {
+  id: number;
+  video: string;
+  title: string;
+  description: string;
+}
+
 const props = defineProps<{
-    videos: string[]
+    videos: Slide[]
 }>()
 
 const instance = getCurrentInstance();
 const uniqueId = ref(instance?.uid); 
+
+const isVideoPlaying = ref(Array(props.videos.length).fill(false));
+
+const videos = ref<HTMLVideoElement[]>([]);
+
+const stopAllVideos = () => {
+  videos.value.forEach(video => {
+    video.pause();
+  });
+};
 </script>
 
 <template>
-    <swiper :navigation="{ nextEl: '.custom-next-'+uniqueId, prevEl: '.custom-prev-'+uniqueId }" :modules="[Navigation]" :loop="true" class="mySwiper">
-        <swiper-slide v-for="video in props.videos" style="background: url('/video-border.png') center center / cover no-repeat;">
-            <video controls>
-                <source type="video/mp4">
-                <source type="video/webm">
+    <swiper 
+      :navigation="{ nextEl: '.custom-next-'+uniqueId, prevEl: '.custom-prev-'+uniqueId }" 
+      :modules="[Navigation]" :loop="props.videos.length > 1 ? true : false" 
+      class="mySwiper" 
+      @slide-change="stopAllVideos">
+        <swiper-slide v-for="video in props.videos" style="background: url('/video-border.png') center center / cover no-repeat;" :key="video.id">
+            <video controls @play="isVideoPlaying[video.id] = true" @pause="isVideoPlaying[video.id] = false" ref="videos">
+                <source :src="video.video" type="video/mp4">
+                <source :src="video.video" type="video/webm">
                 Your browser does not support the video tag.
             </video>
+            <div class="video-info" :style="{ opacity: isVideoPlaying[video.id] ? '0' : '1' }">
+              <span>{{ video.title }}</span>
+              <p>{{ video.description }}</p>
+            </div>
         </swiper-slide>
     </swiper>
     <div class="custom-navigation">
@@ -39,6 +64,7 @@ const uniqueId = ref(instance?.uid);
   text-align: center;
   font-size: 18px;
   padding: 10px;
+  position: relative;
 
   /* Center slide text vertically */
   background: url('/video-border.png') center center / cover no-repeat;
@@ -53,6 +79,27 @@ const uniqueId = ref(instance?.uid);
   height: 90%;
   object-fit: cover;
   border-radius: 50rem;
+}
+
+.video-info {
+  position: absolute;
+  bottom: 150rem;
+  left: 100rem;
+  color: white;
+  width: 1120rem;
+  padding: 40rem 100rem;
+  text-align: left;
+  transition: all 0.3s ease;
+
+  span{
+    font-size: 64rem;
+    line-height: 70.4rem;
+    font-family: var(--font-durik);
+  }
+  p{
+    font-size: 19rem;
+    line-height: 21.78rem;
+  }
 }
 
 .custom-navigation {

@@ -1,9 +1,17 @@
 <script setup lang="ts">
+    import { onMounted, ref } from 'vue';
     import ArchiveSlider from './ArchiveSlider.vue';
     import VideoSlider from './VideoSlider.vue';
+    import { getArchivePhotos } from '@/shared/api';
+    import { getArchiveVideos } from '@/shared/api/axiosInstance';
 
-    const archiveData = ['/temp-moment.png', '/temp-moment.png', '/temp-moment.png', '/temp-moment.png']
-    const videoData = ['1', '2', '3', '1']
+    const archiveData = ref([])
+    const videoData = ref([])
+
+    onMounted(async () => {
+        archiveData.value = await getArchivePhotos();
+        videoData.value = await getArchiveVideos();
+    })
 </script>
 
 <template>
@@ -19,7 +27,7 @@
             <span class="shadow shadow-2">МОМЕНТЫ ИСТОРИИ</span>
         </div>
         <ArchiveSlider :slides="archiveData"/>
-        <VideoSlider :videos="videoData"/>
+        <VideoSlider :videos="videoData" v-if="videoData.length > 0"/>
     </div>
 </template>
 
