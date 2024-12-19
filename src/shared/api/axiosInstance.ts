@@ -1,6 +1,6 @@
 import axios from 'axios'
 
-const serverUrl = 'http://api.diveevskiy-museum-history.itlabs.top'
+const serverUrl = 'https://api.diveevskiy-museum-history.itlabs.top'
 
 export const axiosInstance = axios.create({
   baseURL: serverUrl + "/api",
